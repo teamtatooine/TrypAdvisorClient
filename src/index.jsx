@@ -1,20 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import styled from 'styled-components';
 import QandaList from './components/QandA/QandaList.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      attraction: [],
+      questions: []
+    };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    $.get('/api/attraction/1', data => {
+      this.setState({ attraction: data });
+    });
+    $.get('/api/questions/1', data => {
+      this.setState({ questions: data });
+    });
+  }
 
   render() {
+    console.log(this.state);
     return (
       <div>
-        <QandaList />
+        <h1>{this.state.attraction.name}</h1>
+        <QandaList questions={this.state.questions} />
       </div>
     );
   }

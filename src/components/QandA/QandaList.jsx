@@ -19,19 +19,29 @@ const Title = styled.h1`
   font-family: Arial, Tahoma;
 `;
 
-class QandaList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+// class QandaList extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {};
+//   }
 
-  render() {
-    return (
-      <Wrapper>
-        <Title>Questions & Answers</Title>
-      </Wrapper>
-    );
-  }
-}
+//   render(props) {
+//     console.log('props', props);
+//     return (
+//       <Wrapper>
+//         <Title>Questions & Answers</Title>
+//       </Wrapper>
+//     );
+//   }
+// }
+
+const QandaList = function(props) {
+  console.log('questions', props);
+  return (
+    <Wrapper>
+      <Title>Questions & Answers</Title>
+    </Wrapper>
+  );
+};
 
 export default QandaList;

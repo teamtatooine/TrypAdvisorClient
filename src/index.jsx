@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+
+const Title = styled.h1`
+  color: blue;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -10,7 +15,7 @@ class App extends React.Component {
   componentDidMount() {}
 
   render() {
-    return <div />;
+    return <Title>hello</Title>;
   }
 }
 

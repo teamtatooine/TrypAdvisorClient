@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-
-const Title = styled.h1`
-  color: blue;
-`;
+import QandaList from './components/QandA/QandaList.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +12,11 @@ class App extends React.Component {
   componentDidMount() {}
 
   render() {
-    return <Title>hello</Title>;
+    return (
+      <div>
+        <QandaList />
+      </div>
+    );
   }
 }
 

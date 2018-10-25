@@ -23,11 +23,11 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log('index', this.state);
     return (
       <div>
         <h1>{this.state.attraction.name}</h1>
-        <QandaList questions={this.state.questions} />
+        <QandaList data={this.state} />
       </div>
     );
   }

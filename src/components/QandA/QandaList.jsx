@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Question from './Question.jsx';
 
 const Wrapper = styled.section`
   background-color: #fff;
@@ -19,29 +20,71 @@ const Title = styled.h1`
   font-family: Arial, Tahoma;
 `;
 
-// class QandaList extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {};
-//   }
+const Text = styled.p`
+  font-size: 20px;
+  color: #000a12;
+  font-family: Arial, Tahoma;
+  margin-bottom: 0;
+`;
 
-//   render(props) {
-//     console.log('props', props);
-//     return (
-//       <Wrapper>
-//         <Title>Questions & Answers</Title>
-//       </Wrapper>
-//     );
-//   }
-// }
+const Small = styled.p`
+  font-size: 12px;
+  color: #4a4a4a;
+  font-family: Arial, Tahoma;
+  margin-top: 12px;
+`;
 
-const QandaList = function(props) {
-  console.log('questions', props);
-  return (
-    <Wrapper>
-      <Title>Questions & Answers</Title>
-    </Wrapper>
-  );
-};
+const Button = styled.a`
+  /* This renders the buttons above... Edit me! */
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.5rem 0;
+  // margin: 0.5rem 1rem;
+  width: 11rem;
+  background: #49a382;
+  color: white;
+  border: 2px solid #49a382;
+  text-align: center;
+`;
+
+const Textarea = styled.textarea`
+  padding: 0.5em;
+  color: black;
+  background: white;
+  border-radius: 3px;
+  width: 100%;
+  font-size: 16px;
+`;
+
+class QandaList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputRef = React.createRef();
+    this.state = {};
+  }
+
+  render(props) {
+    console.log('this', this.props.data.questions);
+    return (
+      <Wrapper>
+        <Title>Questions & Answers</Title>
+        <Text>Get quick answers from staff and past visitors.</Text>
+        <Small>
+          Note: your question will be posted publicly on the Questions & Answers
+          page.
+        </Small>
+        <Textarea
+          ref={this.inputRef}
+          placeholder="Hi, Name. What would you like to know bout this attraction?"
+          onMouseEnter={() => {
+            this.inputRef.current.focus();
+          }}
+        />
+        <Button>Submit</Button>
+        <Question />
+      </Wrapper>
+    );
+  }
+}
 
 export default QandaList;

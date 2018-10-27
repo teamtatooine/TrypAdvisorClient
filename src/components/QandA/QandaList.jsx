@@ -48,23 +48,45 @@ const Button = styled.a`
 `;
 
 const Textarea = styled.textarea`
-  padding: 0.5em;
+  // padding: 0.5em;
   color: black;
   background: white;
   border-radius: 3px;
   width: 100%;
   font-size: 16px;
+  margin: 3px -1px;
+  padding: 0;
 `;
 
 class QandaList extends React.Component {
   constructor(props) {
     super(props);
     this.inputRef = React.createRef();
-    this.state = {};
+    this.state = {
+      question: ''
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.questionText = this.questionText.bind(this);
+  }
+
+  onChange(e) {
+    // console.log('onChange e', e.target.value);
+    this.setState({
+      question: e.target.value
+    });
+  }
+
+  questionText() {
+    console.log('this: ', this);
+    this.props.askQuestion(this.state.question);
+    this.setState({
+      question: ''
+    });
   }
 
   render(props) {
-    console.log('this', this.props.data.questions);
+    // console.log('this', this.props.data.questions);
     return (
       <Wrapper>
         <Title>Questions & Answers</Title>
@@ -79,9 +101,12 @@ class QandaList extends React.Component {
           onMouseEnter={() => {
             this.inputRef.current.focus();
           }}
+          onChange={this.onChange}
+          name="question"
+          value={this.state.question}
         />
-        <Button>Submit</Button>
-        <Question />
+        <Button onClick={this.questionText}>Submit</Button>
+        <Question questions={this.props.data.questions} />
       </Wrapper>
     );
   }

@@ -22,12 +22,27 @@ class App extends React.Component {
     });
   }
 
+  askQuestion(question) {
+    // console.log(`${question} was asked.`);
+    // console.log(this);
+    var that = this;
+    // TODO
+    $.post('/api/question/1/50', { question: question }, function(data) {
+      console.log('data', data);
+      // let dataParsed = JSON.parse(data);
+      that.setState({ questions: data });
+    });
+  }
+
   render() {
     console.log('index', this.state);
     return (
       <div>
         <h1>{this.state.attraction.name}</h1>
-        <QandaList data={this.state} />
+        <QandaList
+          data={this.state}
+          askQuestion={this.askQuestion.bind(this)}
+        />
       </div>
     );
   }

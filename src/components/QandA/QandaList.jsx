@@ -35,7 +35,6 @@ const Small = styled.p`
 `;
 
 const Button = styled.a`
-  /* This renders the buttons above... Edit me! */
   display: inline-block;
   border-radius: 3px;
   padding: 0.5rem 0;
@@ -78,11 +77,32 @@ class QandaList extends React.Component {
   }
 
   questionText() {
-    console.log('this: ', this);
     this.props.askQuestion(this.state.question);
     this.setState({
       question: ''
     });
+  }
+
+  answer(values) {
+    console.log('form', values);
+    //console.log(`form values: ${values}`);
+    var that = this;
+
+    // $.ajax({
+    //   method: 'POST',
+    //   url: '/items',
+    //   data: values,
+    //   success: data => {
+    //     console.log('success!', data);
+    //     let parsedData = JSON.parse(data);
+    //     this.setState({
+    //       items: parsedData
+    //     });
+    //   },
+    //   error: err => {
+    //     console.log('ajax post err', err);
+    //   }
+    // });
   }
 
   render(props) {
@@ -97,7 +117,7 @@ class QandaList extends React.Component {
         </Small>
         <Textarea
           ref={this.inputRef}
-          placeholder="Hi, Name. What would you like to know bout this attraction?"
+          placeholder="Hi. What would you like to know bout this attraction?"
           onMouseEnter={() => {
             this.inputRef.current.focus();
           }}
@@ -106,7 +126,10 @@ class QandaList extends React.Component {
           value={this.state.question}
         />
         <Button onClick={this.questionText}>Submit</Button>
-        <Question questions={this.props.data.questions} />
+        <Question
+          questions={this.props.data.questions}
+          onSubmit={this.answer.bind(this)}
+        />
       </Wrapper>
     );
   }

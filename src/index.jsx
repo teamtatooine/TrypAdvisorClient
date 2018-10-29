@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ReviewsService from './components/reviewsService.jsx';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -10,7 +12,11 @@ class App extends React.Component {
   componentDidMount() {}
 
   render() {
-    return <div />;
+    return (
+      <div>
+        <ReviewsService />
+      </div>
+    );
   }
 }
 

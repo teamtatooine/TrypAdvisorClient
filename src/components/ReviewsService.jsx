@@ -4,8 +4,9 @@ import styled from 'styled-components';
 
 import ReviewsFilters from './ReviewsFilters.jsx'
 import ReviewsSearch from './ReviewsSearch.jsx'
+import ReviewsList from './ReviewsList.jsx';
 
-const Wrapper = styled.div`
+const Container = styled.div`
   background-color: #fff;
   padding: 16px 24px 24px 24px;
   margin-right: 200px;
@@ -86,7 +87,7 @@ class ReviewsService extends React.Component {
   render() {
     return (
       <div>
-        <Wrapper>
+        <Container>
 
           <Header>
             <Title>
@@ -102,7 +103,9 @@ class ReviewsService extends React.Component {
 
           <ReviewsSearch />
 
-        </Wrapper>
+          <ReviewsList />
+
+        </Container>
       </div>
     );
   }

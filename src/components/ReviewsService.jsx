@@ -2,6 +2,8 @@ import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
 
+import ReviewsFilters from './ReviewsFilters.jsx'
+
 const Container = styled.div`
   background-color: #fff;
   padding: 16px 24px 24px 24px;
@@ -94,6 +96,8 @@ class ReviewsService extends React.Component {
               Write a Review
             </ReviewButton>
           </Header>
+
+          <ReviewsFilters />
 
         </Container>
       </div>

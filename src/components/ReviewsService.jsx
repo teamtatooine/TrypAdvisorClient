@@ -79,10 +79,22 @@ const ReviewButton = styled(Button)`
 class ReviewsService extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      reviews: []
+    };
   }
 
-  componentDidMount() {}
+  getReviews() {
+    $.post('/api/review/5bd4c610bd30c897489169d2', (reviews) => {
+      this.setState({
+        reviews: reviews
+      });
+    });
+  }
+
+  componentDidMount() {
+    this.getReviews();
+  }
 
   render() {
     return (
@@ -92,7 +104,7 @@ class ReviewsService extends React.Component {
           <Header>
             <Title>
               Reviews
-              <ReviewCount> 100 </ReviewCount>
+              <ReviewCount>{this.state.reviews.length}</ReviewCount>
             </Title>
             <ReviewButton as="a" href="/">
               Write a Review
@@ -103,7 +115,7 @@ class ReviewsService extends React.Component {
 
           <ReviewsSearch />
 
-          <ReviewsList />
+          <ReviewsList reviews={this.state.reviews}/>
 
         </Container>
       </div>

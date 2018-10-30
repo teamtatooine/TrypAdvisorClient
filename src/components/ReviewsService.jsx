@@ -3,8 +3,9 @@ import $ from 'jquery';
 import styled from 'styled-components';
 
 import ReviewsFilters from './ReviewsFilters.jsx'
+import ReviewsSearch from './ReviewsSearch.jsx'
 
-const Container = styled.div`
+const Wrapper = styled.div`
   background-color: #fff;
   padding: 16px 24px 24px 24px;
   margin-right: 200px;
@@ -85,7 +86,7 @@ class ReviewsService extends React.Component {
   render() {
     return (
       <div>
-        <Container>
+        <Wrapper>
 
           <Header>
             <Title>
@@ -99,7 +100,9 @@ class ReviewsService extends React.Component {
 
           <ReviewsFilters />
 
-        </Container>
+          <ReviewsSearch />
+
+        </Wrapper>
       </div>
     );
   }

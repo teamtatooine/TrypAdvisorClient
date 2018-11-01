@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
 
 import ReviewsFilters from './ReviewsFilters.jsx'
 import ReviewsSearch from './ReviewsSearch.jsx'
@@ -82,12 +83,21 @@ class ReviewsService extends React.Component {
     super(props);
     this.state = {
       reviews: [],
+      attraction: null,
       showAddReviewModal: false
     };
   }
 
+  getAttraction() {
+    $.get('/api/review/5bda7c659ac647b24013774c/attraction', (attractionInfo) => {
+      this.setState({
+        attraction: attractionInfo
+      });
+    });
+  }
+
   getReviews() {
-    $.post('/api/review/5bda2d908d011cacf89fd74e', (reviews) => {
+    $.post('/api/review/5bda7c659ac647b24013774c', (reviews) => {
       this.setState({
         reviews: reviews
       });
@@ -103,6 +113,7 @@ class ReviewsService extends React.Component {
   };
 
   componentDidMount() {
+    this.getAttraction();
     this.getReviews();
   }
 
@@ -130,7 +141,7 @@ class ReviewsService extends React.Component {
 
             <ReviewsList reviews={this.state.reviews}/>
 
-            <ReviewsNewAddModal reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
+            <ReviewsNewAddModal attraction={this.state.attraction} reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
 
           </Container>
         </div>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ReviewsFilters from './ReviewsFilters.jsx'
 import ReviewsSearch from './ReviewsSearch.jsx'
 import ReviewsList from './ReviewsList.jsx';
+import ReviewsNewAddModal from './ReviewsNewAddModal.jsx';
 
 const Container = styled.div`
   background-color: #fff;
@@ -80,17 +81,26 @@ class ReviewsService extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviews: []
+      reviews: [],
+      showAddReviewModal: false
     };
   }
 
   getReviews() {
-    $.post('/api/review/5bd4c610bd30c897489169d2', (reviews) => {
+    $.post('/api/review/5bda2d908d011cacf89fd74e', (reviews) => {
       this.setState({
         reviews: reviews
       });
     });
   }
+
+  openNewReviewModal() {
+    this.setState({ showAddReviewModal: true });
+  };
+
+  hideNewReviewModal() {
+    this.setState({ showAddReviewModal: false });
+  };
 
   componentDidMount() {
     this.getReviews();
@@ -106,7 +116,7 @@ class ReviewsService extends React.Component {
               Reviews
               <ReviewCount>{this.state.reviews.length}</ReviewCount>
             </Title>
-            <ReviewButton as="a" href="/">
+            <ReviewButton onClick={this.openNewReviewModal.bind(this)}>
               Write a Review
             </ReviewButton>
           </Header>
@@ -116,6 +126,8 @@ class ReviewsService extends React.Component {
           <ReviewsSearch />
 
           <ReviewsList reviews={this.state.reviews}/>
+
+          <ReviewsNewAddModal reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
 
         </Container>
       </div>

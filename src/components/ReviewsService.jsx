@@ -108,29 +108,32 @@ class ReviewsService extends React.Component {
 
   render() {
     return (
-      <div>
-        <Container>
+      !(this.state.reviews.length) ?
+        <img src="https://i.imgur.com/k9GyXLC.gif"/>
+      :
+        <div>
+          <Container>
 
-          <Header>
-            <Title>
-              Reviews
-              <ReviewCount>{this.state.reviews.length}</ReviewCount>
-            </Title>
-            <ReviewButton onClick={this.openNewReviewModal.bind(this)}>
-              Write a Review
-            </ReviewButton>
-          </Header>
+            <Header>
+              <Title>
+                Reviews
+                <ReviewCount>{this.state.reviews.length}</ReviewCount>
+              </Title>
+              <ReviewButton onClick={this.openNewReviewModal.bind(this)}>
+                Write a Review
+              </ReviewButton>
+            </Header>
 
-          <ReviewsFilters />
+            <ReviewsFilters />
 
-          <ReviewsSearch />
+            <ReviewsSearch />
 
-          <ReviewsList reviews={this.state.reviews}/>
+            <ReviewsList reviews={this.state.reviews}/>
 
-          <ReviewsNewAddModal reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
+            <ReviewsNewAddModal reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
 
-        </Container>
-      </div>
+          </Container>
+        </div>
     );
   }
 }

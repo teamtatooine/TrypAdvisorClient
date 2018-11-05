@@ -562,10 +562,10 @@ class ReviewsNewAddModal extends React.Component {
       rating: null,
       ratingError: false,
 
-      title: null,
+      title: '',
       titleError: false,
 
-      description: null,
+      description: '',
       descriptionError: false,
 
       visitType: null,
@@ -706,7 +706,7 @@ class ReviewsNewAddModal extends React.Component {
 
     // Loop through all required inputs and display corresponding error messages
     for (const key in requiredInputs) {
-      if (requiredInputs[key] === null) {
+      if (requiredInputs[key] === null || requiredInputs[key] === '') {
         this.setState({
           [key + "Error"]: true
         });
@@ -729,6 +729,33 @@ class ReviewsNewAddModal extends React.Component {
     return errorExists;
   };
 
+  resetToDefaults() {
+    this.setState({
+      showSubmitError: false,
+      ratingFlagText: 'Click to rate',
+      rating: null,
+      ratingError: false,
+      title: '',
+      titleError: false,
+      description: '',
+      descriptionError: false,
+      visitType: null,
+      visitTypeError: false,
+      visitDate: null,
+      visitDateError: false,
+      userConsent: null,
+      userConsentError: false,
+      visitLength: null,
+      skipLine: null,
+      headCover: null,
+      modestDress: null,
+      payForWifi: null,
+      teenagerFriendly: null,
+      artsAssociated: null,
+      photos: []
+    });
+  };
+
   submit() {
     // Validate required inputs
     if (this.checkInputErrors()) {
@@ -736,7 +763,6 @@ class ReviewsNewAddModal extends React.Component {
       this.setState({
         showSubmitError: true
       });
-      ReactDOM.findDOMNode(this).scrollTop = 0;
 
     } else {
       // If all inputs pass, submit review
@@ -757,7 +783,11 @@ class ReviewsNewAddModal extends React.Component {
       };
 
       this.props.onSubmit(params);
+
+      this.resetToDefaults();
     };
+
+    ReactDOM.findDOMNode(this).scrollTop = 0;
   };
 
   render() {
@@ -794,13 +824,13 @@ class ReviewsNewAddModal extends React.Component {
 
               <Title>
                 <TitleLabel className={this.state.titleError ? "show" : "hide"}> Title of your review </TitleLabel>
-                <TitleInput placeholder="Summarize your visit or highlight an interesting detail" maxLength="120" onChange={this.titleChange.bind(this)} />
+                <TitleInput placeholder="Summarize your visit or highlight an interesting detail" maxLength="120" onChange={this.titleChange.bind(this)} value={this.state.title} />
                 <TitleErrorMessage className={this.state.titleError ? "show" : "hide"}> This field is required. </TitleErrorMessage>
               </Title>
 
               <Description>
                 <DescriptionLabel className={this.state.descriptionError ? "show" : "hide"}> Your review </DescriptionLabel>
-                <TextInput placeholder="Tell people about your experience: describe the place or activity, recommendations for travelers?" data-minlen="100" data-maxlen="20000" onChange={this.descriptionChange.bind(this)} />
+                <TextInput placeholder="Tell people about your experience: describe the place or activity, recommendations for travelers?" data-minlen="100" data-maxlen="20000" onChange={this.descriptionChange.bind(this)} value={this.state.description} />
                 <DescriptionMinimum> (100 character minimum) </DescriptionMinimum>
                 <DescriptionErrorMessage className={this.state.descriptionError ? "show" : "hide"}> Your review must be at least 100 characters long. Adding details really helps travelers. </DescriptionErrorMessage>
               </Description>
@@ -820,19 +850,19 @@ class ReviewsNewAddModal extends React.Component {
               <VisitDate>
                 <VisitDateLabel className={this.state.visitDateError ? "show" : "hide"}> When did you visit? </VisitDateLabel>
                 <VisitDateMonthYear onChange={this.visitDateChange.bind(this)}>
-                  <option value="null"> Select one </option>
-                  <option value="2018-11-01"> November 2018 </option>
-                  <option value="2018-10-01"> October 2018 </option>
-                  <option value="2018-09-01"> September 2018 </option>
-                  <option value="2018-08-01"> August 2018 </option>
-                  <option value="2018-07-01"> July 2018 </option>
-                  <option value="2018-06-01"> June 2018 </option>
-                  <option value="2018-05-01"> May 2018 </option>
-                  <option value="2018-04-01"> April 2018 </option>
-                  <option value="2018-03-01"> March 2018 </option>
-                  <option value="2018-02-01"> February 2018 </option>
-                  <option value="2018-01-01"> January 2018 </option>
-                  <option value="2017-12-01"> December 2017 </option>
+                  <option value="null" selected={this.state.visitDate}> Select one </option>
+                  <option value="2018-11-01" selected={this.state.visitDate}> November 2018 </option>
+                  <option value="2018-10-01" selected={this.state.visitDate}> October 2018 </option>
+                  <option value="2018-09-01" selected={this.state.visitDate}> September 2018 </option>
+                  <option value="2018-08-01" selected={this.state.visitDate}> August 2018 </option>
+                  <option value="2018-07-01" selected={this.state.visitDate}> July 2018 </option>
+                  <option value="2018-06-01" selected={this.state.visitDate}> June 2018 </option>
+                  <option value="2018-05-01" selected={this.state.visitDate}> May 2018 </option>
+                  <option value="2018-04-01" selected={this.state.visitDate}> April 2018 </option>
+                  <option value="2018-03-01" selected={this.state.visitDate}> March 2018 </option>
+                  <option value="2018-02-01" selected={this.state.visitDate}> February 2018 </option>
+                  <option value="2018-01-01" selected={this.state.visitDate}> January 2018 </option>
+                  <option value="2017-12-01" selected={this.state.visitDate}> December 2017 </option>
                 </VisitDateMonthYear>
                 <VisitDateErrorMessage className={this.state.visitDateError ? "show" : "hide"}> This field is required. </VisitDateErrorMessage>
               </VisitDate>
@@ -849,16 +879,16 @@ class ReviewsNewAddModal extends React.Component {
               <RecommendedLengthVisit onChange={this.visitLengthChange.bind(this)}>
                 <TitleLabel> Recommended length of visit </TitleLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="<1 hour" /> &lt;1 hour
+                  <LengthVisitInput type="radio" name="LengthVisit" value="<1 hour" checked={this.state.visitLength === '<1 hour'} /> &lt;1 hour
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="1-2 hours" /> 1-2 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="1-2 hours" checked={this.state.visitLength === '1-2 hours'} /> 1-2 hours
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="2-3 hours" /> 2-3 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="2-3 hours" checked={this.state.visitLength === '2-3 hours'} /> 2-3 hours
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="more than 3 hours" /> More than 3 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="more than 3 hours" checked={this.state.visitLength === 'more than 3 hours'} /> More than 3 hours
                 </LengthVisitLabel>
               </RecommendedLengthVisit>
 
@@ -937,7 +967,7 @@ class ReviewsNewAddModal extends React.Component {
 
             <UserConsent>
               <UserConsentLabel className={this.state.userConsentError ? "show" : "hide"}> Submit your review </UserConsentLabel>
-              <CheckBox type="checkbox" onClick={this.userConsentToggle.bind(this)}></CheckBox>
+              <CheckBox type="checkbox" onClick={this.userConsentToggle.bind(this)} checked={this.state.userConsent} />
               <FraudText>
                 I certify that this review is based on my own experience and is my genuine opinion of this establishment and that I have no personal or business relationship with this establishment, and have not been offered any incentive or payment originating from the establishment to write this review. I understand that TripAdvisor has a zero-tolerance policy on fake reviews.
               </FraudText>

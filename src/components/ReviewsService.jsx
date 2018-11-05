@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components'
@@ -7,6 +8,12 @@ import ReviewsFilters from './ReviewsFilters.jsx'
 import ReviewsSearch from './ReviewsSearch.jsx'
 import ReviewsList from './ReviewsList.jsx';
 import ReviewsNewAddModal from './ReviewsNewAddModal.jsx';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    overflow: ${props => (props.hide ? 'hidden' : 'auto')};
+  }
+`;
 
 const Container = styled.div`
   background-color: #fff;
@@ -82,26 +89,34 @@ class ReviewsService extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      attractionId: '5bda7c659ac647b24013774c',
       reviews: [],
       attraction: null,
       showAddReviewModal: false
     };
-  }
+  };
 
   getAttraction() {
-    $.get('/api/review/5bda7c659ac647b24013774c/attraction', (attractionInfo) => {
+    $.get('/api/review/' + this.state.attractionId + '/attraction', (attractionInfo) => {
       this.setState({
         attraction: attractionInfo
       });
     });
-  }
+  };
 
   getReviews() {
-    $.post('/api/review/5bda7c659ac647b24013774c', (reviews) => {
+    $.post('/api/review/' + this.state.attractionId + '', (reviews) => {
       this.setState({
         reviews: reviews
       });
     });
+  };
+
+  addNewReview(params) {
+    $.post('api/review/' + this.state.attractionId + '/add', params, (review) => {
+      this.hideNewReviewModal();
+      this.getReviews();
+    })
   }
 
   openNewReviewModal() {
@@ -115,7 +130,7 @@ class ReviewsService extends React.Component {
   componentDidMount() {
     this.getAttraction();
     this.getReviews();
-  }
+  };
 
   render() {
     return (
@@ -141,12 +156,20 @@ class ReviewsService extends React.Component {
 
             <ReviewsList reviews={this.state.reviews}/>
 
-            <ReviewsNewAddModal attraction={this.state.attraction} reviews={this.state.reviews} show={this.state.showAddReviewModal} handleClose={this.hideNewReviewModal.bind(this)} />
+            <ReviewsNewAddModal
+              attraction={this.state.attraction}
+              reviews={this.state.reviews}
+              show={this.state.showAddReviewModal}
+              hide={this.hideNewReviewModal.bind(this)}
+              onSubmit={this.addNewReview.bind(this)}
+            />
+
+            {this.state.showAddReviewModal ? <GlobalStyle hide /> : null}
 
           </Container>
         </div>
     );
-  }
-}
+  };
+};
 
 export default ReviewsService;

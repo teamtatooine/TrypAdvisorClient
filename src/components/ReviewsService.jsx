@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components'
@@ -90,12 +89,39 @@ class ReviewsService extends React.Component {
     super(props);
     this.state = {
       attractionId: '5bda7c659ac647b24013774c',
-      reviews: [],
+      reviews: null,
       attraction: null,
-      showAddReviewModal: false
+      showAddReviewModal: false,
+
+      // Filters for ratings
+      excellentFilter: false,
+      verygoodFilter: false,
+      averageFilter: false,
+      poorFilter: false,
+      terribleFilter: false,
+
+      // Filters for visit type
+      familiesFilter: false,
+      couplesFilter: false,
+      soloFilter: false,
+      businessFilter: false,
+      friendsFilter: false,
+
+      // Filters for visit date
+      quarter1Filter: false,
+      quarter2Filter: false,
+      quarter3Filter: false,
+      quarter4Filter: false,
+
+      // Filters for keyword search
+      searchFilter: null,
+
+      // Totals for ratings
+      reviewTotals: {}
     };
   };
 
+  // GET request to retrieve attraction info
   getAttraction() {
     $.get('/api/review/' + this.state.attractionId + '/attraction', (attractionInfo) => {
       this.setState({
@@ -104,25 +130,82 @@ class ReviewsService extends React.Component {
     });
   };
 
+  // POST request to GET reviews & calculate totals
   getReviews() {
-    $.post('/api/review/' + this.state.attractionId + '', (reviews) => {
+    $.post('/api/review/' + this.state.attractionId, (reviews) => {
+      this.setState({
+        reviews: reviews,
+        reviewTotals: {
+          totalAll: reviews.length,
+          total5star: reviews.reduce((acc, review) => review.userRating === 5 ? acc + 1 : acc, 0),
+          total4star: reviews.reduce((acc, review) => review.userRating === 4 ? acc + 1 : acc, 0),
+          total3star: reviews.reduce((acc, review) => review.userRating === 3 ? acc + 1 : acc, 0),
+          total2star: reviews.reduce((acc, review) => review.userRating === 2 ? acc + 1 : acc, 0),
+          total1star: reviews.reduce((acc, review) => review.userRating === 1 ? acc + 1 : acc, 0)
+        }
+      });
+    });
+  };
+
+  // POST request to GET filtered reviews (no totals calculation)
+  getFilteredReviews() {
+    $.post('/api/review/' + this.state.attractionId, {
+      // Ratings
+      excellent: this.state.excellentFilter,
+      verygood: this.state.verygoodFilter,
+      average: this.state.averageFilter,
+      poor: this.state.poorFilter,
+      terrible: this.state.terribleFilter,
+      // Visit type
+      families: this.state.familiesFilter,
+      couples: this.state.couplesFilter,
+      solo: this.state.soloFilter,
+      business: this.state.businessFilter,
+      friends: this.state.friendsFilter,
+      // Visit date
+      quarter1: this.state.quarter1Filter,
+      quarter2: this.state.quarter2Filter,
+      quarter3: this.state.quarter3Filter,
+      quarter4: this.state.quarter4Filter,
+      search: this.state.searchFilter
+    }, (reviews) => {
       this.setState({
         reviews: reviews
       });
     });
   };
 
+  // POST request to add new review
   addNewReview(params) {
     $.post('api/review/' + this.state.attractionId + '/add', params, (review) => {
       this.hideNewReviewModal();
       this.getReviews();
-    })
-  }
+    });
+  };
 
+  // Toggle filters based on user input
+  async filterReviews(event) {
+    const filter = event.target.value + 'Filter';
+    await this.setState({
+      [filter]: !this.state[filter]
+    })
+    this.getFilteredReviews();
+  };
+
+  // Filter reviews by user inputted keyword
+  async searchReviews(keyword) {
+    await this.setState({
+        searchFilter: keyword
+    });
+    this.getFilteredReviews();
+  };
+
+  // Open new review modal
   openNewReviewModal() {
     this.setState({ showAddReviewModal: true });
   };
 
+  // Close new review modal
   hideNewReviewModal() {
     this.setState({ showAddReviewModal: false });
   };
@@ -134,7 +217,8 @@ class ReviewsService extends React.Component {
 
   render() {
     return (
-      !(this.state.reviews.length) ?
+      (this.state.reviews === null) ?
+        // Display loading screen upon initial render
         <img src="https://i.imgur.com/k9GyXLC.gif"/>
       :
         <div>
@@ -143,16 +227,16 @@ class ReviewsService extends React.Component {
             <Header>
               <Title>
                 Reviews
-                <ReviewCount>{this.state.reviews.length}</ReviewCount>
+                <ReviewCount> {this.state.reviews.length} </ReviewCount>
               </Title>
               <ReviewButton onClick={this.openNewReviewModal.bind(this)}>
                 Write a Review
               </ReviewButton>
             </Header>
 
-            <ReviewsFilters />
+            <ReviewsFilters reviewTotals={this.state.reviewTotals} filterReviews={this.filterReviews.bind(this)} />
 
-            <ReviewsSearch />
+            <ReviewsSearch searchReviews={this.searchReviews.bind(this)} />
 
             <ReviewsList reviews={this.state.reviews}/>
 

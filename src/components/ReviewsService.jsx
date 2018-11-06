@@ -88,7 +88,8 @@ class ReviewsService extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attractionId: '5bda7c659ac647b24013774c',
+      attractionId: '5be20d0cfcdcb4d57e4bbe13',
+      userId: '5be20d0cfcdcb4d57e4bbe8c',
       reviews: null,
       attraction: null,
       showAddReviewModal: false,
@@ -177,7 +178,7 @@ class ReviewsService extends React.Component {
 
   // POST request to add new review
   addNewReview(params) {
-    $.post('api/review/' + this.state.attractionId + '/add', params, (review) => {
+    $.post('api/review/' + this.state.attractionId + '/add/' + this.state.userId, params, (review) => {
       this.hideNewReviewModal();
       this.getReviews();
     });

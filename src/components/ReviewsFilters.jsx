@@ -95,7 +95,7 @@ const FilterBar = styled(FilterCell)`
 
 const FilterBarFill = styled.span`
   display: inline-block;
-  width: 80%;
+  width: 0;
   background: #00a680 none repeat scroll 0 0;
   white-space: pre;
   border-radius: 2px;

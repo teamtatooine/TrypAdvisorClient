@@ -5,8 +5,6 @@ const Filters = styled.div`
   font-size: medium;
   color: #2c2c2c;
   margin: 0 -12px;
-  // position: static;
-  // overflow: inherit;
 `;
 
 const FilterColumn = styled.div`
@@ -15,22 +13,18 @@ const FilterColumn = styled.div`
   padding: 12px;
   padding-bottom: 6px;
   box-sizing: border-box;
-  // max-height: 98%;
 `;
 
 const FilterColumn1 = styled(FilterColumn)`
   width: 41%;
-  // flex: none;
 `;
 
 const FilterColumn2 = styled(FilterColumn)`
   width: 17%;
-  // flex: none;
 `;
 
 const FilterColumn3 = styled(FilterColumn)`
   width: 25%;
-  // flex: none;
 `;
 
 const FilterHeader = styled.div`
@@ -50,8 +44,6 @@ const FilterTable = styled.div`
 const FilterRow = styled.div`
   display: table-row;
   width: 100%;
-  // padding-bottom: 12px;
-  // position: relative;
 `;
 
 const FilterCell = styled.div`
@@ -61,31 +53,27 @@ const FilterCell = styled.div`
 
 const FilterCheckbox = styled.input`
   display: none;
+  &:checked + label:before {
+    background-color: #00a680;
+    padding-left: 0.7px;
+    content: "✓";
+  };
 `;
 
-const FilterLabel = styled.label`
+const FilterCheckboxLabel = styled.label`
   display: inline-block;
   white-space: nowrap;
-  // overflow: hidden;
-  // padding-left: 35px;
-  // margin-bottom: 12px;
-  // font-size: 12px;
   position: relative;
   padding-right: 12px;
   padding-left: 24px;
   box-sizing: content-box;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   &:before {
     position: absolute;
     top: 0;
     left: 0;
     width: 1em;
     height: 1em;
-    background-color: #fff;
     border: 1px solid #767676;
     border-radius: 2px;
     box-shadow: inset 0 0 2px rgba(0,0,0,0.1);
@@ -94,9 +82,6 @@ const FilterLabel = styled.label`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     content: "";
-    &:checked {
-      background-color: #000
-    }
   };
 `;
 
@@ -106,15 +91,12 @@ const FilterBar = styled(FilterCell)`
   position: relative;
   border-radius: 2px;
   cursor: pointer;
-  // display: inline-block;
-  // height: 12px;
 `;
 
 const FilterBarFill = styled.span`
   display: inline-block;
   width: 80%;
   background: #00a680 none repeat scroll 0 0;
-  // height: 100%;
   white-space: pre;
   border-radius: 2px;
 `;
@@ -123,165 +105,182 @@ const FilterCellValue = styled(FilterCell)`
   padding-left: 8px;
 `;
 
+const FilterRadio = styled.input`
+  display: none;
+  &:checked + label:before {
+    color: #00a680;
+    font-size: 1.6em;
+    content: "●";
+  };
+`;
+
+const FilterRadioLabel = styled(FilterCheckboxLabel)`
+  &:before {
+    top: -1px;
+    width: 15px;
+    height: 15px;
+    border-radius: 100%;
+    line-height: 15px;
+    text-indent: 2px;
+  };
+`;
 
 
 
-let ReviewsFilters = (props) => {
+
+const ReviewsFilters = (props) => {
 
   return (
-    props === undefined ?
-      <div>No Data</div>
-    :
-      <Filters>
+    <Filters>
 
-        <FilterColumn1>
+      <FilterColumn1>
 
-          <FilterHeader> Traveler Rating </FilterHeader>
+        <FilterHeader> Traveler Rating </FilterHeader>
 
-          <FilterTable>
+        <FilterTable>
 
-            <FilterRow className="rating5">
-              <FilterCheckbox type="checkbox" value="5" />
-              <FilterLabel> Excellent </FilterLabel>
-              <FilterBar>
-                <FilterBarFill style={{width: '65%'}}> </FilterBarFill>
-              </FilterBar>
-              <FilterCellValue> {props.total5 || '1,310'} </FilterCellValue>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="excellent" type="checkbox" value="excellent" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="excellent"> Excellent </FilterCheckboxLabel>
+            <FilterBar>
+              <FilterBarFill style={{width: (props.reviewTotals.total5star / props.reviewTotals.totalAll * 100) + '%'}}> </FilterBarFill>
+            </FilterBar>
+            <FilterCellValue> {props.reviewTotals.total5star} </FilterCellValue>
+          </FilterRow>
 
-            <FilterRow className="rating4">
-              <FilterCheckbox type="checkbox" value="4" />
-              <FilterLabel> Very good </FilterLabel>
-              <FilterBar>
-                <FilterBarFill style={{width: '18%'}}> </FilterBarFill>
-              </FilterBar>
-              <FilterCellValue> {props.total4 || '222'} </FilterCellValue>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="verygood" type="checkbox" value="verygood" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="verygood"> Very good </FilterCheckboxLabel>
+            <FilterBar>
+              <FilterBarFill style={{width: (props.reviewTotals.total4star / props.reviewTotals.totalAll * 100) + '%'}}> </FilterBarFill>
+            </FilterBar>
+            <FilterCellValue> {props.reviewTotals.total4star} </FilterCellValue>
+          </FilterRow>
 
-            <FilterRow className="rating3">
-              <FilterCheckbox type="checkbox" value="3" />
-              <FilterLabel> Average </FilterLabel>
-              <FilterBar>
-                <FilterBarFill style={{width: '10%'}}> </FilterBarFill>
-              </FilterBar>
-              <FilterCellValue> {props.total3 || '44'} </FilterCellValue>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="average" type="checkbox" value="average" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="average"> Average </FilterCheckboxLabel>
+            <FilterBar>
+              <FilterBarFill style={{width: (props.reviewTotals.total3star / props.reviewTotals.totalAll * 100) + '%'}}> </FilterBarFill>
+            </FilterBar>
+            <FilterCellValue> {props.reviewTotals.total3star} </FilterCellValue>
+          </FilterRow>
 
-            <FilterRow className="rating2">
-              <FilterCheckbox type="checkbox" value="2" />
-              <FilterLabel> Poor </FilterLabel>
-              <FilterBar>
-                <FilterBarFill style={{width: '5%'}}> </FilterBarFill>
-              </FilterBar>
-              <FilterCellValue> {props.total2 || '14'} </FilterCellValue>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="poor" type="checkbox" value="poor" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="poor"> Poor </FilterCheckboxLabel>
+            <FilterBar>
+              <FilterBarFill style={{width: (props.reviewTotals.total2star / props.reviewTotals.totalAll * 100) + '%'}}> </FilterBarFill>
+            </FilterBar>
+            <FilterCellValue> {props.reviewTotals.total2star} </FilterCellValue>
+          </FilterRow>
 
-            <FilterRow className="rating1">
-              <FilterCheckbox type="checkbox" value="1" />
-              <FilterLabel> Terrible </FilterLabel>
-              <FilterBar>
-                <FilterBarFill style={{width: '2%'}}> </FilterBarFill>
-              </FilterBar>
-              <FilterCellValue> {props.total1 || '8'} </FilterCellValue>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="terrible" type="checkbox" value="terrible" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="terrible"> Terrible </FilterCheckboxLabel>
+            <FilterBar>
+              <FilterBarFill style={{width: (props.reviewTotals.total1star / props.reviewTotals.totalAll * 100) + '%'}}> </FilterBarFill>
+            </FilterBar>
+            <FilterCellValue> {props.reviewTotals.total1star} </FilterCellValue>
+          </FilterRow>
 
-          </FilterTable>
-        </FilterColumn1>
+        </FilterTable>
+      </FilterColumn1>
 
-        <FilterColumn2>
+      <FilterColumn2>
 
-          <FilterHeader> Traveler type </FilterHeader>
+        <FilterHeader> Traveler type </FilterHeader>
 
-          <FilterTable>
+        <FilterTable>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Families" />
-              <FilterLabel> Families </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="families" type="checkbox" value="families" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="families"> Families </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Couples" />
-              <FilterLabel> Couples </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="couples" type="checkbox" value="couples" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="couples"> Couples </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Solo" />
-              <FilterLabel> Solo </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="solo" type="checkbox" value="solo" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="solo"> Solo </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Business" />
-              <FilterLabel> Business </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="business" type="checkbox" value="business" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="business"> Business </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Friends" />
-              <FilterLabel> Friends </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="friends" type="checkbox" value="friends" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="friends"> Friends </FilterCheckboxLabel>
+          </FilterRow>
 
-          </FilterTable>
-        </FilterColumn2>
+        </FilterTable>
+      </FilterColumn2>
 
-        <FilterColumn2>
+      <FilterColumn2>
 
-          <FilterHeader> Time of year </FilterHeader>
+        <FilterHeader> Time of year </FilterHeader>
 
-          <FilterTable>
+        <FilterTable>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Mar-May" />
-              <FilterLabel> Mar-May </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="quarter1" type="checkbox" value="quarter1" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="quarter1"> Mar-May </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Jun-Aug" />
-              <FilterLabel> Jun-Aug </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="quarter2" type="checkbox" value="quarter2" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="quarter2"> Jun-Aug </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Sep-Nov" />
-              <FilterLabel> Sep-Nov </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="quarter3" type="checkbox" value="quarter3" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="quarter3"> Sep-Nov </FilterCheckboxLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="checkbox" value="Dec-Feb" />
-              <FilterLabel> Dec-Feb </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterCheckbox id="quarter4" type="checkbox" value="quarter4" onClick={props.filterReviews} />
+            <FilterCheckboxLabel htmlFor="quarter4"> Dec-Feb </FilterCheckboxLabel>
+          </FilterRow>
 
-          </FilterTable>
-        </FilterColumn2>
+        </FilterTable>
+      </FilterColumn2>
 
-        <FilterColumn3>
+      <FilterColumn3>
 
-          <FilterHeader> Language </FilterHeader>
+        <FilterHeader> Language </FilterHeader>
 
-          <FilterTable>
+        <FilterTable>
 
-            <FilterRow>
-              <FilterCheckbox type="radio" value="All languages" />
-              <FilterLabel> All languages </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterRadio id="all" type="radio" name="radio" value="all" />
+            <FilterRadioLabel htmlFor="all"> All languages </FilterRadioLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="radio" value="English" />
-              <FilterLabel> English </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterRadio id="english" type="radio" name="radio" value="english" />
+            <FilterRadioLabel htmlFor="english"> English </FilterRadioLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="radio" value="German" />
-              <FilterLabel> German </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterRadio id="german" type="radio" name="radio" value="german" />
+            <FilterRadioLabel htmlFor="german"> German </FilterRadioLabel>
+          </FilterRow>
 
-            <FilterRow>
-              <FilterCheckbox type="radio" value="Korean" />
-              <FilterLabel> Korean </FilterLabel>
-            </FilterRow>
+          <FilterRow>
+            <FilterRadio id="korean" type="radio" name="radio" value="korean" />
+            <FilterRadioLabel htmlFor="korean"> Korean </FilterRadioLabel>
+          </FilterRow>
 
-          </FilterTable>
-        </FilterColumn3>
+        </FilterTable>
+      </FilterColumn3>
 
-      </Filters>
-  )
+    </Filters>
+  );
 };
 
 export default ReviewsFilters;

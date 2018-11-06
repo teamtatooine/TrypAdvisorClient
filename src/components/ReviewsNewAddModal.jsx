@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import ReactStars from 'react-stars'
 import $ from 'jquery';
+import moment from 'moment';
 
 // Standard elements
 
@@ -571,10 +572,10 @@ class ReviewsNewAddModal extends React.Component {
       visitType: null,
       visitTypeError: false,
 
-      visitDate: null,
+      visitDate: '',
       visitDateError: false,
 
-      userConsent: null,
+      userConsent: false,
       userConsentError: false,
 
       // Optional inputs (no validation)
@@ -706,7 +707,7 @@ class ReviewsNewAddModal extends React.Component {
 
     // Loop through all required inputs and display corresponding error messages
     for (const key in requiredInputs) {
-      if (requiredInputs[key] === null || requiredInputs[key] === '') {
+      if (requiredInputs[key] === null || requiredInputs[key] === '' || requiredInputs[key] === false) {
         this.setState({
           [key + "Error"]: true
         });
@@ -741,9 +742,9 @@ class ReviewsNewAddModal extends React.Component {
       descriptionError: false,
       visitType: null,
       visitTypeError: false,
-      visitDate: null,
+      visitDate: '',
       visitDateError: false,
-      userConsent: null,
+      userConsent: false,
       userConsentError: false,
       visitLength: null,
       skipLine: null,
@@ -849,20 +850,20 @@ class ReviewsNewAddModal extends React.Component {
 
               <VisitDate>
                 <VisitDateLabel className={this.state.visitDateError ? "show" : "hide"}> When did you visit? </VisitDateLabel>
-                <VisitDateMonthYear onChange={this.visitDateChange.bind(this)}>
-                  <option value="null" selected={this.state.visitDate}> Select one </option>
-                  <option value="2018-11-01" selected={this.state.visitDate}> November 2018 </option>
-                  <option value="2018-10-01" selected={this.state.visitDate}> October 2018 </option>
-                  <option value="2018-09-01" selected={this.state.visitDate}> September 2018 </option>
-                  <option value="2018-08-01" selected={this.state.visitDate}> August 2018 </option>
-                  <option value="2018-07-01" selected={this.state.visitDate}> July 2018 </option>
-                  <option value="2018-06-01" selected={this.state.visitDate}> June 2018 </option>
-                  <option value="2018-05-01" selected={this.state.visitDate}> May 2018 </option>
-                  <option value="2018-04-01" selected={this.state.visitDate}> April 2018 </option>
-                  <option value="2018-03-01" selected={this.state.visitDate}> March 2018 </option>
-                  <option value="2018-02-01" selected={this.state.visitDate}> February 2018 </option>
-                  <option value="2018-01-01" selected={this.state.visitDate}> January 2018 </option>
-                  <option value="2017-12-01" selected={this.state.visitDate}> December 2017 </option>
+                <VisitDateMonthYear value={this.state.visitDate} onChange={this.visitDateChange.bind(this)}>
+                  <option> Select one </option>
+                  <option> {moment(new Date(), "YYYY-MM").format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(1, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(2, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(3, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(4, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(5, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(6, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(7, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(8, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(9, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(10, 'month').format("MMMM YYYY")} </option>
+                  <option> {moment(new Date(), "YYYY-MM").subtract(11, 'month').format("MMMM YYYY")} </option>
                 </VisitDateMonthYear>
                 <VisitDateErrorMessage className={this.state.visitDateError ? "show" : "hide"}> This field is required. </VisitDateErrorMessage>
               </VisitDate>
@@ -876,19 +877,19 @@ class ReviewsNewAddModal extends React.Component {
                 <HeaderNote> (optional) </HeaderNote>
               </OptionalHeader>
 
-              <RecommendedLengthVisit onChange={this.visitLengthChange.bind(this)}>
+              <RecommendedLengthVisit>
                 <TitleLabel> Recommended length of visit </TitleLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="<1 hour" checked={this.state.visitLength === '<1 hour'} /> &lt;1 hour
+                  <LengthVisitInput type="radio" name="LengthVisit" value="<1 hour" checked={this.state.visitLength === '<1 hour'} onChange={this.visitLengthChange.bind(this)} /> &lt;1 hour
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="1-2 hours" checked={this.state.visitLength === '1-2 hours'} /> 1-2 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="1-2 hours" checked={this.state.visitLength === '1-2 hours'} onChange={this.visitLengthChange.bind(this)} /> 1-2 hours
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="2-3 hours" checked={this.state.visitLength === '2-3 hours'} /> 2-3 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="2-3 hours" checked={this.state.visitLength === '2-3 hours'} onChange={this.visitLengthChange.bind(this)} /> 2-3 hours
                 </LengthVisitLabel>
                 <LengthVisitLabel>
-                  <LengthVisitInput type="radio" name="LengthVisit" value="more than 3 hours" checked={this.state.visitLength === 'more than 3 hours'} /> More than 3 hours
+                  <LengthVisitInput type="radio" name="LengthVisit" value="more than 3 hours" checked={this.state.visitLength === 'more than 3 hours'} onChange={this.visitLengthChange.bind(this)} /> More than 3 hours
                 </LengthVisitLabel>
               </RecommendedLengthVisit>
 
@@ -967,7 +968,7 @@ class ReviewsNewAddModal extends React.Component {
 
             <UserConsent>
               <UserConsentLabel className={this.state.userConsentError ? "show" : "hide"}> Submit your review </UserConsentLabel>
-              <CheckBox type="checkbox" onClick={this.userConsentToggle.bind(this)} checked={this.state.userConsent} />
+              <CheckBox type="checkbox" value={this.state.userConsent} onChange={this.userConsentToggle.bind(this)} checked={this.state.userConsent} />
               <FraudText>
                 I certify that this review is based on my own experience and is my genuine opinion of this establishment and that I have no personal or business relationship with this establishment, and have not been offered any incentive or payment originating from the establishment to write this review. I understand that TripAdvisor has a zero-tolerance policy on fake reviews.
               </FraudText>

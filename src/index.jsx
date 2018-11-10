@@ -18,6 +18,7 @@ class App extends React.Component {
       this.setState({ attraction: data });
     });
     $.get('/api/questions/1', data => {
+      console.log('data', data);
       this.setState({ questions: data });
     });
   }
@@ -28,19 +29,19 @@ class App extends React.Component {
     var that = this;
     // TODO
     $.post('/api/question/1/50', { question: question }, function(data) {
-      console.log('data', data);
+      console.log('data post', data);
       // let dataParsed = JSON.parse(data);
       that.setState({ questions: data });
     });
   }
 
   render() {
-    console.log('index', this.state);
+    // console.log('render', this.state.questions);
     return (
       <div>
         <h1>{this.state.attraction.name}</h1>
         <QandaList
-          data={this.state}
+          data={this.state.questions}
           askQuestion={this.askQuestion.bind(this)}
         />
       </div>

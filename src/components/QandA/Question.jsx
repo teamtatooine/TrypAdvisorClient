@@ -89,40 +89,33 @@ const Textarea = styled.textarea`
   padding: 0;
 `;
 
-const Question = props => (
-  <Wrapper>
-    {props.questions.map((question, index) => (
-      <QuestionDiv key={index}>
-        <Left>
-          <Image src={question.user.userPhotoUrl} />
-          <Username>{question.user.username}</Username>
-        </Left>
-        <Right>
-          <Text>{question.question}</Text>
-          <Date>{moment(question.questionDate).format('MMMM M, YYYY')}</Date>
-          <Answer answer={question.answer} />
-          {/* <AnswerDiv>
-            <Textarea
-              placeholder="Hi, answer this travelers question."
-              // onChange={this.onAnswerChange}
-              name="answer"
-              // value={props.answerText}
-            />
-            <Button onSubmit={props.onSubmit}>Submit</Button>
-            {question.answer.map((answer, index) => (
-              <div key={index}>
-                <AnswerUsername>
-                  Response from {answer.user.username} | Reviewed this property
-                </AnswerUsername>
-                <Text>{answer.answer}</Text>
-                <Date>{moment(answer.answerDate).format('MMMM M, YYYY')}</Date>
-              </div>
-            ))}
-          </AnswerDiv> */}
-        </Right>
-      </QuestionDiv>
-    ))}
-  </Wrapper>
-);
+class Question extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    console.log('question', this.props.questions);
+    return (
+      <Wrapper>
+        {this.props.questions.map((question, index) => (
+          <QuestionDiv key={index}>
+            <Left>
+              <Image src={question.user.userPhotoUrl} />
+              <Username>{question.user.username}</Username>
+            </Left>
+            <Right>
+              <Text>{question.question}</Text>
+              <Date>
+                {moment(question.questionDate).format('MMMM M, YYYY')}
+              </Date>
+              <Answer questionId={question.id} answer={question.answer} />
+            </Right>
+          </QuestionDiv>
+        ))}
+      </Wrapper>
+    );
+  }
+}
 
 export default Question;

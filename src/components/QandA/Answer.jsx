@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import $ from 'jquery';
 
 const AnswerDiv = styled.div`
   padding-left: 40px;
@@ -50,23 +51,89 @@ const Username = styled.p`
   padding-top: 15px;
 `;
 
-const Answer = props => (
-  <AnswerDiv>
-    <Textarea
-      placeholder="Hi, answer this travelers question."
-      // onChange={this.onAnswerChange}
-      name="answer"
-      // value={props.answerText}
-    />
-    <Button>Submit</Button>
-    {props.answer.map((answer, index) => (
-      <div key={index}>
-        <Username>Response from {answer.user.username}</Username>
-        <Text>{answer.answer}</Text>
-        <Date>{moment(answer.answerDate).format('MMMM M, YYYY')}</Date>
-      </div>
-    ))}
-  </AnswerDiv>
-);
+class Answer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      questionId: this.props.questionId,
+      answer: ''
+    };
+
+    console.log('questionId', this.state);
+
+    this.onAnswerChange = this.onAnswerChange.bind(this);
+    this.giveAnswer = this.giveAnswer.bind(this);
+  }
+
+  onAnswerChange(e) {
+    console.log('onChange e', e.target.value);
+    this.setState({
+      answer: e.target.value
+    });
+  }
+
+  giveAnswer(questionId, answer) {
+    console.log(`${questionId} : ${answer} was asked.`);
+    console.log('give answer', questionId);
+    var that = this;
+    $.post('/api/answer/' + questionId + '/1', { answer: answer }, function(
+      data
+    ) {
+      console.log('data post', data);
+      // let dataParsed = JSON.parse(data);
+      that.setState({ answer: '' });
+      window.location.reload();
+    });
+  }
+
+  render() {
+    console.log('answer', this.props);
+    if (this.props.answer[0].answer != null) {
+      return (
+        <AnswerDiv>
+          <Textarea
+            placeholder="Hi, answer this travelers question."
+            onChange={this.onAnswerChange}
+            name="answer"
+            value={this.state.answer}
+          />
+          <Button
+            onClick={() =>
+              this.giveAnswer(this.props.questionId, this.state.answer)
+            }
+          >
+            Submit
+          </Button>
+          {this.props.answer.map((answer, index) => (
+            <div key={index}>
+              <Username>Response from {answer.user.username}</Username>
+              <Text>{answer.answer}</Text>
+              <Date>{moment(answer.answerDate).format('MMMM M, YYYY')}</Date>
+            </div>
+          ))}
+        </AnswerDiv>
+      );
+    } else {
+      return (
+        <AnswerDiv>
+          <Textarea
+            placeholder="Hi, answer this travelers question."
+            onChange={this.onAnswerChange}
+            name="answer"
+            value={this.state.answer}
+          />
+          <Button
+            onClick={() =>
+              this.giveAnswer(this.props.questionId, this.state.answer)
+            }
+          >
+            Submit
+          </Button>
+        </AnswerDiv>
+      );
+    }
+  }
+}
 
 export default Answer;

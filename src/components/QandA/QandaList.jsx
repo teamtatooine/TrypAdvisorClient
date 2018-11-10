@@ -106,7 +106,7 @@ class QandaList extends React.Component {
   }
 
   render(props) {
-    // console.log('this', this.props.data.questions);
+    // console.log('QandAList', this.props.data);
     return (
       <Wrapper>
         <Title>Questions & Answers</Title>
@@ -127,8 +127,8 @@ class QandaList extends React.Component {
         />
         <Button onClick={this.questionText}>Submit</Button>
         <Question
-          questions={this.props.data.questions}
-          onSubmit={this.answer.bind(this)}
+          questions={this.props.data}
+          // onSubmit={this.answer.bind(this)}
         />
       </Wrapper>
     );

@@ -261,7 +261,7 @@ const ReviewsFilters = (props) => {
           </FilterRow>
 
           <FilterRow>
-            <FilterRadio id="english" type="radio" name="radio" value="english" checked />
+            <FilterRadio id="english" type="radio" name="radio" value="english" defaultChecked="true" />
             <FilterRadioLabel htmlFor="english"> English </FilterRadioLabel>
           </FilterRow>
 

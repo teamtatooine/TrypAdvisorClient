@@ -24,9 +24,13 @@
     "jquery": "^3.3.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "styled-components": "^4.0.2",
     "react-stars": "^2.2.5",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "google-map-react": "^1.1.0",
+    "underscore": "^1.8.3"
   },
   "bugs": {
     "url": "https://github.com/teamtatooine/TrypAdvisorClient/issues"

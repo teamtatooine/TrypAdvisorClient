@@ -5,6 +5,7 @@ import ReactStars from 'react-stars'
 import $ from 'jquery';
 import moment from 'moment';
 
+
 // Standard elements
 
   const Label = styled.label`
@@ -517,7 +518,7 @@ import moment from 'moment';
     margin-left: 3px;
     height: 100%;
     overflow: hidden;
-    word-break: break-all;
+    word-break: break-word;
   `;
 
   const RecentReviewDescription = styled.p`
@@ -526,7 +527,7 @@ import moment from 'moment';
     line-height: 16px;
     margin-top: 0;
     margin-bottom: 2px;
-    word-break: break-all;
+    word-break: break-word;
   `;
 
   const FraudLink = styled.a`
@@ -547,8 +548,6 @@ import moment from 'moment';
   const FraudIcon = styled.span`
     color: #00a680;
   `;
-
-
 
 
 class ReviewsNewAddModal extends React.Component {
@@ -815,7 +814,7 @@ class ReviewsNewAddModal extends React.Component {
 
               <Rating>
                 <RatingStar>
-                  <ReactStars count={5} value={this.state.rating} size={37} color2={'#00a680'} half={false} edit={true} onChange={this.ratingChange.bind(this)} />
+                  <ReactStars count={5} char={'\u2605'} value={this.state.rating} size={37} color2={'#00a680'} half={false} edit={true} onChange={this.ratingChange.bind(this)} />
                   <RatingErrorMessage className={this.state.ratingError ? "show" : "hide"}> This field is required. </RatingErrorMessage>
                 </RatingStar>
                 <RatingFlag>
@@ -992,7 +991,7 @@ class ReviewsNewAddModal extends React.Component {
                   <RecentReviewPic src={this.props.reviews[0].userData[0].profilePicture} />
                   <RecentReviewName> {this.props.reviews[0].userData[0].userName} </RecentReviewName>
                   <RecentReviewRating>
-                    <ReactStars count={5} value={this.props.reviews[0].userRating} size={17} color2={'#00a680'} edit={false} />
+                    <ReactStars count={5} char={'\u2605'} value={this.props.reviews[0].userRating} size={17} color2={'#00a680'} edit={false} />
                   </RecentReviewRating>
                   <RecentReviewTitle> {'"' + this.props.reviews[0].title + '"'} </RecentReviewTitle>
                 </RecentReviewsHeader>
@@ -1004,7 +1003,7 @@ class ReviewsNewAddModal extends React.Component {
                   <RecentReviewPic src={this.props.reviews[1].userData[0].profilePicture} />
                   <RecentReviewName> {this.props.reviews[1].userData[0].userName} </RecentReviewName>
                   <RecentReviewRating>
-                    <ReactStars count={5} value={this.props.reviews[1].userRating} size={17} color2={'#00a680'} edit={false} />
+                    <ReactStars count={5} char={'\u2605'} value={this.props.reviews[1].userRating} size={17} color2={'#00a680'} edit={false} />
                   </RecentReviewRating>
                   <RecentReviewTitle> {'"' + this.props.reviews[1].title + '"'} </RecentReviewTitle>
                 </RecentReviewsHeader>
@@ -1016,7 +1015,7 @@ class ReviewsNewAddModal extends React.Component {
                   <RecentReviewPic src={this.props.reviews[2].userData[0].profilePicture} />
                   <RecentReviewName> {this.props.reviews[2].userData[0].userName} </RecentReviewName>
                   <RecentReviewRating>
-                    <ReactStars count={5} value={this.props.reviews[2].userRating} size={17} color2={'#00a680'} edit={false} />
+                    <ReactStars count={5} char={'\u2605'} value={this.props.reviews[2].userRating} size={17} color2={'#00a680'} edit={false} />
                   </RecentReviewRating>
                   <RecentReviewTitle> {'"' + this.props.reviews[2].title + '"'} </RecentReviewTitle>
                 </RecentReviewsHeader>

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Filters = styled.div`
   font-size: medium;
   color: #2c2c2c;
@@ -124,8 +125,6 @@ const FilterRadioLabel = styled(FilterCheckboxLabel)`
     text-indent: 2px;
   };
 `;
-
-
 
 
 const ReviewsFilters = (props) => {
@@ -262,7 +261,7 @@ const ReviewsFilters = (props) => {
           </FilterRow>
 
           <FilterRow>
-            <FilterRadio id="english" type="radio" name="radio" value="english" />
+            <FilterRadio id="english" type="radio" name="radio" value="english" checked />
             <FilterRadioLabel htmlFor="english"> English </FilterRadioLabel>
           </FilterRow>
 

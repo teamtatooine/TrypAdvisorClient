@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import ReviewsListEntry from './ReviewsListEntry.jsx';
 
+
 const List = styled.div`
 `;
 
@@ -102,8 +103,6 @@ const currentPage = {
   color: '#000a12',
   cursor: 'default'
 }
-
-
 
 
 const ReviewsList = (props) => {

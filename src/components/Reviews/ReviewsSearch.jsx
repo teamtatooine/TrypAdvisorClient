@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Search = styled.div`
 `;
 
@@ -58,8 +59,6 @@ const SearchBar = styled.input`
     outline-width: 0;
   }
 `;
-
-
 
 
 class ReviewsSearch extends React.Component {

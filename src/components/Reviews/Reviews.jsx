@@ -8,6 +8,7 @@ import ReviewsSearch from './ReviewsSearch.jsx'
 import ReviewsList from './ReviewsList.jsx';
 import ReviewsNewAddModal from './ReviewsNewAddModal.jsx';
 
+
 const GlobalStyle = createGlobalStyle`
   body {
     overflow: ${props => (props.hide ? 'hidden' : 'auto')};
@@ -17,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
 const Container = styled.div`
   background-color: #fff;
   padding: 16px 24px 24px 24px;
-  margin-right: 200px;
+  width: 67%;
   border-radius: 2px;
   border-width: 1px;
   border-style: solid;
@@ -82,14 +83,12 @@ const ReviewButton = styled(Button)`
 `;
 
 
-
-
-class ReviewsService extends React.Component {
+class Reviews extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attractionId: '5be20d0cfcdcb4d57e4bbe13',
-      userId: '5be20d0cfcdcb4d57e4bbe8c',
+      attractionId: '5be289c3806fa8daa75a64d9',
+      userId: '5be289c3806fa8daa75a6552',
       reviews: null,
       attraction: null,
       showAddReviewModal: false,
@@ -124,7 +123,7 @@ class ReviewsService extends React.Component {
 
   // GET request to retrieve attraction info
   getAttraction() {
-    $.get('/api/review/' + this.state.attractionId + '/attraction', (attractionInfo) => {
+    $.get('http://trypadvisorreviewsservice-LB-2114261024.us-west-2.elb.amazonaws.com/api/review/' + this.state.attractionId + '/attraction', (attractionInfo) => {
       this.setState({
         attraction: attractionInfo
       });
@@ -133,7 +132,7 @@ class ReviewsService extends React.Component {
 
   // POST request to GET reviews & calculate totals
   getReviews() {
-    $.post('/api/review/' + this.state.attractionId, (reviews) => {
+    $.post('http://trypadvisorreviewsservice-LB-2114261024.us-west-2.elb.amazonaws.com/api/review/' + this.state.attractionId, (reviews) => {
       this.setState({
         reviews: reviews,
         reviewTotals: {
@@ -150,7 +149,7 @@ class ReviewsService extends React.Component {
 
   // POST request to GET filtered reviews (no totals calculation)
   getFilteredReviews() {
-    $.post('/api/review/' + this.state.attractionId, {
+    $.post('http://trypadvisorreviewsservice-LB-2114261024.us-west-2.elb.amazonaws.com/api/review/' + this.state.attractionId, {
       // Ratings
       excellent: this.state.excellentFilter,
       verygood: this.state.verygoodFilter,
@@ -178,7 +177,7 @@ class ReviewsService extends React.Component {
 
   // POST request to add new review
   addNewReview(params) {
-    $.post('api/review/' + this.state.attractionId + '/add/' + this.state.userId, params, (review) => {
+    $.post('http://trypadvisorreviewsservice-LB-2114261024.us-west-2.elb.amazonaws.com/api/review/' + this.state.attractionId + '/add/' + this.state.userId, params, (review) => {
       this.hideNewReviewModal();
       this.getReviews();
     });
@@ -257,4 +256,4 @@ class ReviewsService extends React.Component {
   };
 };
 
-export default ReviewsService;
+export default Reviews;

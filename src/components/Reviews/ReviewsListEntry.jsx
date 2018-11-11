@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReactStars from 'react-stars'
 import moment from 'moment';
 
+
 const ListEntry = styled.div`
   margin: 8px 0 4px;
   border-top: 1px solid #e5e5e5;
@@ -80,7 +81,7 @@ const ReviewDescription = styled.p`
   color: #4a4a4a;
   padding: 0;
   margin: 5px 0 0;
-  word-break: break-all;
+  word-break: break-word;
 `;
 
 const ReviewPics = styled.div`
@@ -148,8 +149,6 @@ const Disclaimer = styled.div`
 `;
 
 
-
-
 const ReviewsListEntry = (props) => {
 
   return (
@@ -169,7 +168,7 @@ const ReviewsListEntry = (props) => {
 
         <RatingContainer>
           <Rating>
-            <ReactStars count={5} value={props.review.userRating} size={22} color2={'#00a680'} edit={false} />
+            <ReactStars count={5} char={'\u2605'} value={props.review.userRating} size={22} color2={'#00a680'} edit={false} />
           </Rating>
           <RatingDate> Reviewed {moment(props.review.reviewDate, "YYYY-MM-DDTHH:mm:ss.sssZ").fromNow()} </RatingDate>
         </RatingContainer>

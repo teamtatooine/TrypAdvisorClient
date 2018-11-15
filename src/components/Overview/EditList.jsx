@@ -2,7 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 import styled from 'styled-components';
 
-
 const Layout = styled.div`
   padding-top: 0px;
   padding-right: 0px;
@@ -33,8 +32,8 @@ const Layout = styled.div`
   padding-inline-end: 0.75em;
   padding-block-end: 0.625em;
   min-inline-size: min-content;
-  font-size: .75em;
-  font-family: Arial,Tahoma,"Bitstream Vera Sans",sans-serif;
+  font-size: 0.75em;
+  font-family: Arial, Tahoma, 'Bitstream Vera Sans', sans-serif;
   color: #2c2c2c;
 `;
 
@@ -153,7 +152,6 @@ const Zipdiv = styled.div`
   font-weight: bold;
 `;
 
-
 class EditList extends React.Component {
   constructor(props) {
     super(props);
@@ -176,131 +174,156 @@ class EditList extends React.Component {
     this.handleChangeZip = this.handleChangeZip.bind(this);
   }
 
-handleChangeName(event) {
-  event.preventDefault();
-  this.setState({name: event.target.value});
-  console.log("name is ", this.state.name);
-}
-handleChangePhone(event) {
-  event.preventDefault();
-  this.setState({phone: event.target.value});
-}
-
-handleChangeWebsite(event) {
-  event.preventDefault();
-  this.setState({website: event.target.value});
-}
-
-handleChangeAddress(event) {
-  event.preventDefault();
-  this.setState({address1: event.target.value});
-}
-
-handleChangeCity(event) {
-  event.preventDefault();
-  this.setState({city: event.target.value});
-}
-
-handleChangeState(event) {
-  event.preventDefault();
-  this.setState({state: event.target.value});
-}
-
-handleChangeZip(event) {
-  event.preventDefault();
-  console.log("I am here inside onchange");
-  console.log("e",event.target);
-  this.setState({zip: event.target.value});
-}
-
-handleSubmit(event) {
-  console.log("name sub", this.state.name);
-  event.preventDefault();
-  var id = this.props.edit.attractionId;
-  console.log("name", this.state.name);
-  console.log("phone", this.state.phone);
-  console.log("website",  this.state.website);
-  console.log("address1", this.state.address1);
-  console.log("city", this.state.city);
-  console.log("state", this.state.state);
-  console.log("zip", this.state.zip);
-  console.log(id);
-  $.ajax({
-    url: 'http://localhost:3000/api/:id/overview',
-    type: 'PUT',
-    data: {
-      "id": id,
-      "name": this.state.name,
-      "phone": this.state.phone,
-      "website":  this.state.website,
-      "address1": this.state.address1,
-      "city": this.state.city,
-      "state": this.state.state,
-      "zip": this.state.zip
-    },
-    success: function(data) {
-      alert('put was performed.');
-    }
-  });
-}
-
-render() {
-  if(this.props) {
-    //console.log("edil",this.props.edit);
-    var name = this.props.edit.name;
-    var phone = this.props.edit.phone;
-    var website =  this.props.edit.website;
-    var address = this.props.edit.address1;
-    var city = this.props.edit.city;
-    var state = this.props.edit.state;
-    var zip = this.props.edit.zip;
+  handleChangeName(event) {
+    event.preventDefault();
+    this.setState({ name: event.target.value });
+    console.log('name is ', this.state.name);
   }
+  handleChangePhone(event) {
+    event.preventDefault();
+    this.setState({ phone: event.target.value });
+  }
+
+  handleChangeWebsite(event) {
+    event.preventDefault();
+    this.setState({ website: event.target.value });
+  }
+
+  handleChangeAddress(event) {
+    event.preventDefault();
+    this.setState({ address1: event.target.value });
+  }
+
+  handleChangeCity(event) {
+    event.preventDefault();
+    this.setState({ city: event.target.value });
+  }
+
+  handleChangeState(event) {
+    event.preventDefault();
+    this.setState({ state: event.target.value });
+  }
+
+  handleChangeZip(event) {
+    event.preventDefault();
+    console.log('I am here inside onchange');
+    console.log('e', event.target);
+    this.setState({ zip: event.target.value });
+  }
+
+  handleSubmit(event) {
+    console.log('name sub', this.state.name);
+    event.preventDefault();
+    var id = this.props.edit.attractionId;
+    console.log('name', this.state.name);
+    console.log('phone', this.state.phone);
+    console.log('website', this.state.website);
+    console.log('address1', this.state.address1);
+    console.log('city', this.state.city);
+    console.log('state', this.state.state);
+    console.log('zip', this.state.zip);
+    console.log(id);
+    $.ajax({
+      url: 'http://localhost:4000/api/:id/overview',
+      type: 'PUT',
+      data: {
+        id: id,
+        name: this.state.name,
+        phone: this.state.phone,
+        website: this.state.website,
+        address1: this.state.address1,
+        city: this.state.city,
+        state: this.state.state,
+        zip: this.state.zip
+      },
+      success: function(data) {
+        alert('put was performed.');
+      }
+    });
+  }
+
+  render() {
+    if (this.props) {
+      //console.log("edil",this.props.edit);
+      var name = this.props.edit.name;
+      var phone = this.props.edit.phone;
+      var website = this.props.edit.website;
+      var address = this.props.edit.address1;
+      var city = this.props.edit.city;
+      var state = this.props.edit.state;
+      var zip = this.props.edit.zip;
+    }
     //console.log(this.state.value);
-    return (<div>
-      <Layout>
-      <HeaderInfodiv>
-      <h4>General Information</h4>
-      </HeaderInfodiv>
-      <form onSubmit={this.handleSubmit}>
-        <label>
-
-          <Placediv>
-            Place Name
-            <input type="text" value={this.state.name} onChange={this.handleChangeName} />
-          </Placediv>
-          <Phonediv>
-            Phone
-            <input type="text" value={this.state.phone} onChange={this.handleChangePhone} />
-          </Phonediv>
-          <Websitediv>
-          Website
-          <input type="text" value={this.state.website} onChange={this.handleChangeWebsite} />
-          </Websitediv>
-          <Addressdiv>
-          Address
-          <input type="text" value={this.state.address} onChange={this.handleChangeAddress} />
-          </Addressdiv>
-          <Citydiv>
-          City
-          <input type="text" value={this.state.city} onChange={this.handleChangeCity} />
-          </Citydiv>
-          <Statediv>
-          State
-          <input type="text" value={this.state.state} onChange={this.handleChangeState} />
-          </Statediv>
-          <Zipdiv>
-          Zip
-          <input type="text" value={this.state.zip} onChange={this.handleChangeZip} />
-          </Zipdiv>
-        </label>
-        <input type="submit" value="Submit" />
-
-
-      </form>
-      </Layout>
-    </div>
-
-    )
+    return (
+      <div>
+        <Layout>
+          <HeaderInfodiv>
+            <h4>General Information</h4>
+          </HeaderInfodiv>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <Placediv>
+                Place Name
+                <input
+                  type="text"
+                  value={this.state.name}
+                  onChange={this.handleChangeName}
+                />
+              </Placediv>
+              <Phonediv>
+                Phone
+                <input
+                  type="text"
+                  value={this.state.phone}
+                  onChange={this.handleChangePhone}
+                />
+              </Phonediv>
+              <Websitediv>
+                Website
+                <input
+                  type="text"
+                  value={this.state.website}
+                  onChange={this.handleChangeWebsite}
+                />
+              </Websitediv>
+              <Addressdiv>
+                Address
+                <input
+                  type="text"
+                  value={this.state.address}
+                  onChange={this.handleChangeAddress}
+                />
+              </Addressdiv>
+              <Citydiv>
+                City
+                <input
+                  type="text"
+                  value={this.state.city}
+                  onChange={this.handleChangeCity}
+                />
+              </Citydiv>
+              <Statediv>
+                State
+                <input
+                  type="text"
+                  value={this.state.state}
+                  onChange={this.handleChangeState}
+                />
+              </Statediv>
+              <Zipdiv>
+                Zip
+                <input
+                  type="text"
+                  value={this.state.zip}
+                  onChange={this.handleChangeZip}
+                />
+              </Zipdiv>
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </Layout>
+      </div>
+    );
   }
 }
 
@@ -315,8 +338,7 @@ render() {
         <div> {state}</div>
         <div> {zip}</div>*/
 //<button onClick={this.handleSubmit}>
- //         Submit
- //       </button>
-
+//         Submit
+//       </button>
 
 export default EditList;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Overview from './components/Overview/Overview.jsx';
 import Reviews from './components/Reviews/Reviews.jsx';
-
+import Qanda from './components/QandA/qanda.jsx';
 
 const Upperborder = styled.div`
   height: 60px;
@@ -13,7 +13,7 @@ const Upperborder = styled.div`
   margin: 0 auto;
   position: relative;
   padding: 0 24px;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-font-smoothing: antialiased;
   background-color: #00a680;
 `;
@@ -21,7 +21,7 @@ const Upperborder = styled.div`
 const Headertryp = styled.div`
   user-select: none;
   cursor: pointer;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-font-smoothing: antialiased;
 `;
 
@@ -35,19 +35,17 @@ const Container = styled.div`
   margin: 36px;
 `;
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
-  };
+  }
 
   render() {
     return (
       <div>
-
         <Upperborder>
           <Headertryp>
-            <Logo src = 'https://static.tacdn.com/img2/branding/rebrand/TA_logo_secondary.svg' />
+            <Logo src="https://static.tacdn.com/img2/branding/rebrand/TA_logo_secondary.svg" />
           </Headertryp>
         </Upperborder>
 
@@ -58,12 +56,11 @@ class App extends React.Component {
         </Container>
 
         <Container>
-
+          <Qanda />
         </Container>
-
       </div>
     );
-  };
-};
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('app'));

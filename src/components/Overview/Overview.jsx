@@ -5,7 +5,6 @@ import TripPlanner from './TripPlanner.jsx';
 import Info from './Info.jsx';
 import data from '../../sample_data.js';
 
-
 class Overview extends React.Component {
   constructor(props) {
     super(props);
@@ -13,24 +12,25 @@ class Overview extends React.Component {
     this.state = {
       //view: 'lines',
       info: [],
-      id: 100//data.sampleLines
+      id: 100 //data.sampleLines
       //stops: data.sampleStopList.stops
-    }
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeId = this.handleChangeId.bind(this);
   }
-componentDidMount() {
-  //let finalLinesData = [];
-  //console.log("This is state of info", this.state.info);
-  $.get('http://localhost:3000/api/100/overview', function(data) {
-  }).done(data => {
-    //console.log("data from server for lines",data);
-    //let orgLinesData = data;
-    this.setState({
-      info: data
-     });
-  })
-}
+  componentDidMount() {
+    //let finalLinesData = [];
+    //console.log("This is state of info", this.state.info);
+    $.get('http://localhost:4000/api/100/overview', function(data) {}).done(
+      data => {
+        //console.log("data from server for lines",data);
+        //let orgLinesData = data;
+        this.setState({
+          info: data
+        });
+      }
+    );
+  }
   changeView(view) {
     this.setState({
       view: view
@@ -40,16 +40,17 @@ componentDidMount() {
   handleSubmit(event) {
     event.preventDefault();
     //console.log("submit event value",event.value);
-    console.log("id submit", this.state.id);
+    console.log('id submit', this.state.id);
     var id = this.state.id;
-    console.log("id from state", id);
-    $.get('http://localhost:3000/api/'+id + '/overview', function(data) {
-    }).done(data => {
-      console.log("submit data", data);
+    console.log('id from state', id);
+    $.get('http://localhost:4000/api/' + id + '/overview', function(
+      data
+    ) {}).done(data => {
+      console.log('submit data', data);
       this.setState({
-       info: data
+        info: data
       });
-    })
+    });
   }
 
   // componentDidUpdate(this.state.id) {
@@ -58,10 +59,10 @@ componentDidMount() {
 
   handleChangeId(event) {
     event.preventDefault();
-    console.log("I am here inside onchange");
-    console.log("e",event.target);
-    this.setState({id: event.target.value});
-    console.log("id",this.state.id);
+    console.log('I am here inside onchange');
+    console.log('e', event.target);
+    this.setState({ id: event.target.value });
+    console.log('id', this.state.id);
   }
 
   render() {
@@ -69,15 +70,18 @@ componentDidMount() {
     //console.log("lines",this.state.lines);
     return (
       <div>
-
         <form onSubmit={this.handleSubmit}>
           <label>
             Search from 1 to 100 for attractions
-            <input type="text" value={this.state.id} onChange={this.handleChangeId} />
+            <input
+              type="text"
+              value={this.state.id}
+              onChange={this.handleChangeId}
+            />
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <Info info = {this.state.info[0]}/>
+        <Info info={this.state.info[0]} />
       </div>
     );
   }
@@ -85,4 +89,3 @@ componentDidMount() {
 export default Overview;
 
 //ReactDOM.render(<App />, document.getElementById('app'));
-

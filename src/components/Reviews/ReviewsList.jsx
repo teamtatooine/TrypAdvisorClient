@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import ReviewsListEntry from './ReviewsListEntry.jsx';
 
+
 const List = styled.div`
 `;
 
@@ -104,44 +105,43 @@ const currentPage = {
 }
 
 
-
-
-let ReviewsList = (props) => {
+const ReviewsList = (props) => {
 
   return (
-    props === undefined ?
-      <div>No Data</div>
-    :
-      <List>
+    <List>
 
+      {props.reviews.length > 10 ?
         <Totals>
           <b>1</b> - <b>10</b> of <b>{props.reviews.length}</b> reviews
         </Totals>
+      :
+        <Totals></Totals>
+      }
 
-        {props.reviews.map((review, index) =>
-          <ReviewsListEntry
-            review={review}
-            key={review._id}
-            index={index}
-          />
-        )}
+      {props.reviews.map((review, index) =>
+        <ReviewsListEntry
+          review={review}
+          key={review._id}
+          index={index}
+        />
+      )}
 
-        <Footer>
-          <PreviousPage as="a" href="/"> Previous </PreviousPage>
-          <PageNumbers>
-            <Page style={currentPage}> 1 </Page>
-            <Page> 2 </Page>
-            <Page> 3 </Page>
-            <Page> 4 </Page>
-            <Page> 5 </Page>
-            <Page> 6 </Page>
-            <Separator> ... </Separator>
-            <Page> {Math.ceil(props.reviews.length / 10 || 0)} </Page>
-          </PageNumbers>
-          <NextPage as="a" href="/"> Next </NextPage>
-        </Footer>
+      <Footer>
+        <PreviousPage as="a" href="/"> Previous </PreviousPage>
+        <PageNumbers>
+          <Page style={currentPage}> 1 </Page>
+          <Page> 2 </Page>
+          <Page> 3 </Page>
+          <Page> 4 </Page>
+          <Page> 5 </Page>
+          <Page> 6 </Page>
+          <Separator> ... </Separator>
+          <Page> {Math.ceil(props.reviews.length / 10 || 0)} </Page>
+        </PageNumbers>
+        <NextPage as="a" href="/"> Next </NextPage>
+      </Footer>
 
-      </List>
+    </List>
   )
 };
 

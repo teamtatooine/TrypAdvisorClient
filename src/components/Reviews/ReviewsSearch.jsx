@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Search = styled.div`
 `;
 
-const KeywordFilter = styled.div`
+const SearchHeader = styled.div`
   margin-top: 12px;
   font-size: 12px;
   color: #000a12;
@@ -39,7 +40,6 @@ const SearchIcon = styled.span`
     font-size: inherit;
     line-height: 1;
     font-family: "TripAdvisor_Regular"!important;
-    // -ms-transform: rotate(-0.001deg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     speak: none;
@@ -55,25 +55,50 @@ const SearchBar = styled.input`
   border: none;
   box-sizing: border-box;
   background: transparent;
+  &:focus {
+    outline-width: 0;
+  }
 `;
 
 
+class ReviewsSearch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      keywordInput: ''
+    };
+  };
 
+  handleInput(event) {
+    this.setState ({
+      keywordInput: event.target.value
+    });
+  };
 
-let ReviewsSearch = (props) => {
+  handleEnter(event) {
+    if (event.key === 'Enter') {
+      this.handleSubmit();
+    };
+  };
 
-  return (
-    <Search>
+  handleSubmit() {
+    this.props.searchReviews(this.state.keywordInput);
+  };
 
-      <KeywordFilter> Show reviews that mention </KeywordFilter>
+  render() {
+    return (
+      <Search>
 
-      <SearchInput>
-        <SearchIcon> 🔍 </SearchIcon>
-        <SearchBar type="text" placeholder="Search reviews" />
-      </SearchInput>
+        <SearchHeader> Show reviews that mention </SearchHeader>
 
-    </Search>
-  )
+        <SearchInput>
+          <SearchIcon onClick={this.handleSubmit.bind(this)}> 🔍 </SearchIcon>
+          <SearchBar type="text" placeholder="Search reviews" value={this.state.keywordInput} onChange={this.handleInput.bind(this)} onKeyDown={this.handleEnter.bind(this)} />
+        </SearchInput>
+
+      </Search>
+    );
+  };
 };
 
 export default ReviewsSearch;

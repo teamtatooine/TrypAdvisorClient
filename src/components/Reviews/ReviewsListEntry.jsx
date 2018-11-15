@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactStars from 'react-stars'
+import moment from 'moment';
+
 
 const ListEntry = styled.div`
   margin: 8px 0 4px;
   border-top: 1px solid #e5e5e5;
-  // position: relative;
-  // overflow: visible;
 `;
 
 const ReviewColumn1 = styled.div`
@@ -81,6 +81,7 @@ const ReviewDescription = styled.p`
   color: #4a4a4a;
   padding: 0;
   margin: 5px 0 0;
+  word-break: break-word;
 `;
 
 const ReviewPics = styled.div`
@@ -129,13 +130,8 @@ const UpVote = styled.div`
   width: 20%;
   overflow: hidden;
   margin-top: 12px;
-// height: 20px;
-    // padding: 0 6px;
     border: 1px solid #e5e5e5;
     border-radius: 4px;
-    // display: inline-block;
-    // background: #fff;
-    // color: #4a4a4a;
     text-align: center;
     box-sizing: border-box;
   color: #4a4a4a;
@@ -153,9 +149,7 @@ const Disclaimer = styled.div`
 `;
 
 
-
-
-let ReviewsListEntry = (props) => {
+const ReviewsListEntry = (props) => {
 
   return (
     <ListEntry>
@@ -174,9 +168,9 @@ let ReviewsListEntry = (props) => {
 
         <RatingContainer>
           <Rating>
-            <ReactStars count={5} value={props.review.userRating} size={22} color2={'#00a680'} edit={false} />
+            <ReactStars count={5} char={'\u2605'} value={props.review.userRating} size={22} color2={'#00a680'} edit={false} />
           </Rating>
-          <RatingDate> Reviewed yesterday </RatingDate>
+          <RatingDate> Reviewed {moment(props.review.reviewDate, "YYYY-MM-DDTHH:mm:ss.sssZ").fromNow()} </RatingDate>
         </RatingContainer>
 
         <ReviewTitle> {props.review.title} </ReviewTitle>
@@ -185,8 +179,8 @@ let ReviewsListEntry = (props) => {
 
         <ReviewPics>
           <ReviewPicsWrapper>
-            {props.review.photos.map(() =>
-              <ReviewPicContainer>
+            {props.review.photos.map((photo) =>
+              <ReviewPicContainer key={photo}>
                 <ReviewImg src={"https://picsum.photos/200/300?image=" + Math.floor(Math.random() * 1000)} />
               </ReviewPicContainer>
             )}

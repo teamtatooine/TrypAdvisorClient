@@ -4,7 +4,9 @@
   "description": "Client Interface for TrypAdvisor",
   "main": "index.js",
   "scripts": {
-    "react-dev": "webpack -d --watch"
+    "server-dev": "nodemon server/index.js",
+    "react-dev": "webpack -d --watch",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,8 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "express": "^4.16.3",
+    "body-parser": "^1.17.2",
     "jquery": "^3.3.1",
     "react": "^16.3.0",
     "react-dom": "^16.3.0",
@@ -28,6 +32,7 @@
     "react-router-dom": "^4.3.1",
     "styled-components": "^4.0.2",
     "react-stars": "^2.2.5",
+    "moment": "^2.22.2",
     "google-map-react": "^1.1.0",
     "underscore": "^1.8.3"
   },
